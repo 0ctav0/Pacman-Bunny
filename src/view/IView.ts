@@ -1,3 +1,3 @@
 export interface IView {
-  Render(deltaTime: number): () => void;
+  Render: (deltaTime: number) => void,
 }

@@ -20,7 +20,7 @@ export class PacmanModel implements IModel {
   get level()     {return this._level}
 
   constructor() {
-    this._player = new Entity(100, 100, BUNNY_WIDTH, BUNNY_HEIGHT);
+    this._player = new Entity(20, 20, BUNNY_WIDTH, BUNNY_HEIGHT);
     this._level = new Level;
   }
 

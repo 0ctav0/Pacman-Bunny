@@ -15,8 +15,8 @@ export class Pacman {
   private _view?: IView;
   private _controller: IController;
 
-  static WIDTH = 1024;
-  static HEIGHT = 1024;
+  static WIDTH = 1920/2;
+  static HEIGHT = 1080/2;
 
   constructor() {
     this._app = new Application();

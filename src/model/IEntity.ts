@@ -1,14 +1,9 @@
-export interface IEntity {
+import { IBounds } from "./IBounds"
+
+export interface IEntity extends IBounds {
     get id(): number
-    get x(): number
-    get y(): number
-    get width(): number
-    get height(): number
+
     get tint(): number
 
-    set x(v)
-    set y(v)
     set tint(v)
-
-    IsColliding(o: IEntity): boolean
 }

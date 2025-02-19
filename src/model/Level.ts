@@ -2,9 +2,9 @@ import { Pacman } from "../Pacman";
 import { Entity } from "./Entity";
 import { IEntity } from "./IEntity";
 import { ILevel } from "./ILevel";
+import { BUNNY_HEIGHT, BUNNY_WIDTH } from "./PacmanModel";
 
 const WALL_THICKNESS = 20;
-const OFFSET = WALL_THICKNESS + 30;
 const SPAWN_SIZE = 200;
 
 export class Level implements ILevel {
@@ -14,13 +14,18 @@ export class Level implements ILevel {
 
     constructor() {
 
-        this._walls.push(new Entity(OFFSET, 60, Pacman.WIDTH-OFFSET*2, WALL_THICKNESS));
-        this._walls.push(new Entity(OFFSET, 120, Pacman.WIDTH-OFFSET*2, WALL_THICKNESS));
-    
-        this._walls.push(new Entity(OFFSET, Pacman.HEIGHT-WALL_THICKNESS-120, Pacman.WIDTH-OFFSET*2, WALL_THICKNESS));
-        this._walls.push(new Entity(OFFSET, Pacman.HEIGHT-WALL_THICKNESS-60, Pacman.WIDTH-OFFSET*2, WALL_THICKNESS));
-
         this.BuildSquare(0,0,Pacman.WIDTH,Pacman.HEIGHT); // outer walls
+
+        const horizontalOffst = WALL_THICKNESS + BUNNY_WIDTH + 2;
+        const verticalOffset = WALL_THICKNESS + BUNNY_HEIGHT + 2;
+
+        this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, verticalOffset*2, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+    
+        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-120, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-60, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+
+        
         this.BuildSquare(Pacman.WIDTH/2-SPAWN_SIZE/2, Pacman.HEIGHT/2-SPAWN_SIZE/2, SPAWN_SIZE, SPAWN_SIZE) // enemy's spawn
     }
 

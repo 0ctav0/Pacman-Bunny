@@ -21,12 +21,17 @@ export class Pacman {
   constructor() {
     this._app = new Application();
     this._model = new PacmanModel();
-    this._controller = new DesktopController(this.OnMove);
+    this._controller = new DesktopController({onMove: this.OnMove, onClick: this.OnClick});
     this.Init();
   }
 
   private OnMove = (direction: Vector2) => {
     this._model.OnMove(direction);
+  }
+
+  private OnClick = (x: number, y: number) => {
+    this._model.player.x = x;
+    this._model.player.y = y;
   }
 
   private async Init() {

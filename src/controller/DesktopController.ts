@@ -16,10 +16,8 @@ export class DesktopController implements IController {
 
     private Init(){
         addEventListener("keydown", (e) => {
-            console.log(e);
             switch (e.key) {
                 case PLAYER_CONTROL_UP:
-                    
                     this._onMove([0, -1]);
                     break;
                 case PLAYER_CONTROL_RIGHT:

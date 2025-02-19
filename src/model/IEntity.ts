@@ -9,4 +9,6 @@ export interface IEntity {
     set x(v)
     set y(v)
     set tint(v)
+
+    IsColliding(o: IEntity): boolean
 }

@@ -31,4 +31,11 @@ export class Entity implements IEntity {
         this._height = height;
         this._tint = 0xFF_FF_FF;
     }
+
+    IsColliding(o: Entity): boolean {
+        return this.x < o.x + o.width
+        && this.x + this.width > o.x
+        && this.y < o.y + o.height
+        && this.y + this.height > o.y;
+    }
 }

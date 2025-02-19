@@ -15,6 +15,9 @@ export class Pacman {
   private _view?: IView;
   private _controller: IController;
 
+  static WIDTH = 1024;
+  static HEIGHT = 1024;
+
   constructor() {
     this._app = new Application();
     this._model = new PacmanModel();
@@ -28,7 +31,7 @@ export class Pacman {
 
   private async Init() {
     const [background, bunny] = await ResourceManager.LoadResources();
-    this._view = new PixiView(this._app, {background, bunny});
+    this._view = new PixiView(this._app, this._model, {background, bunny});
     await this._view.Init();
     this._view.InitSprite(this._model.player);
     this._app.ticker.add(this.UpdateRenderLoop);
@@ -36,7 +39,7 @@ export class Pacman {
 
   private UpdateRenderLoop = (ticker: Ticker) => {
     this._model.Update(ticker.deltaTime); // for logic, servers
-    this._view?.Render(ticker.deltaTime, this._model); // for view, that player can see
+    this._view?.Render(ticker.deltaTime); // for view, that player can see
   }
 
   static GenerateId() { return generateUID()}

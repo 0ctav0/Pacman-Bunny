@@ -11,11 +11,13 @@ type TexturesObj = {
 
 export class PixiView implements IView {
   private _app: Application;
+  private _model: IModel;
   private _textures: TexturesObj;
   private _sprites: Record<number,Sprite> = {};
 
-  constructor(app: Application, tex: TexturesObj) {
+  constructor(app: Application, model: IModel, tex: TexturesObj) {
     this._app = app;
+    this._model = model;
     this._textures = tex;
   }
 
@@ -27,8 +29,16 @@ export class PixiView implements IView {
 
   private async LoadLevel() {
     const background = new Sprite(this._textures.background);
-    background.zIndex = -10;
     this._app.stage.addChild(background);
+    this._model.level.walls.map(wall => {
+      const sprite = new Sprite(Texture.WHITE);
+      sprite.x = wall.x;
+      sprite.y = wall.y;
+      sprite.width = wall.width;
+      sprite.height = wall.height;
+      sprite.tint = wall.tint;
+      this._app.stage.addChild(sprite);
+    })
   }
 
   InitSprite(entity: IEntity) {
@@ -41,10 +51,10 @@ export class PixiView implements IView {
     this._sprites[entity.id] = entitySprite;
 }
 
-  Render(deltaTime: number, model: IModel) { 
-    const playerSprite = this._sprites[model.player.id];
-    playerSprite.x = model.player.x;
-    playerSprite.y = model.player.y;
-    playerSprite.tint = model.player.tint;
+  Render(deltaTime: number) { 
+    const playerSprite = this._sprites[this._model.player.id];
+    playerSprite.x = this._model.player.x;
+    playerSprite.y = this._model.player.y;
+    playerSprite.tint = this._model.player.tint;
   }
 }

@@ -1,3 +1,4 @@
+import { Pacman } from '../Pacman';
 import { BoundsF, V2, Vector2 } from '../utils/utils';
 import { Entity } from './Entity';
 import { IBounds } from './IBounds';
@@ -5,9 +6,9 @@ import { IEntity } from './IEntity';
 import { ILevel } from './ILevel';
 import { IModel } from './IModel';
 import { Level } from './Level';
+import { BUNNY_HEIGHT, BUNNY_WIDTH } from './constants';
 
-export const BUNNY_WIDTH = 26;
-export const BUNNY_HEIGHT = 37;
+
 export const PLAYER_SPEED = 3;
 
 export class PacmanModel implements IModel {
@@ -38,6 +39,7 @@ export class PacmanModel implements IModel {
     this.player.y += PLAYER_SPEED * this._currentDirection[1] * deltaTime;
     this.CheckPlayerCollidesWalls();
     this._playerLastPosition = [this.player.x, this.player.y];
+    this.CheckTeleport();
   }
 
   OnMove(direction: Vector2) {
@@ -74,6 +76,14 @@ export class PacmanModel implements IModel {
     const collides = this.level.walls.some(wall => wall.IsColliding(BoundsF.Add(this.player.bounds, direction)));
     if (!collides) { // if there's no wall, we can change direction immediately
       this._currentDirection = this._desiredDirection;
+    }
+  }
+
+  private CheckTeleport() {
+    if (this.player.x < 0) {
+      this.player.x = Pacman.WIDTH;
+    } else if (this.player.x > Pacman.WIDTH) {
+      this.player.x = 0;
     }
   }
 }

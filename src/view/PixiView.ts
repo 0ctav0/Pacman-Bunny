@@ -41,7 +41,7 @@ export class PixiView implements IView {
     })
   }
 
-  InitSprite(entity: IEntity) {
+  InitBunny(entity: IEntity) {
     const entitySprite = new Sprite(this._textures.bunny);
     this._app.stage.addChild(entitySprite);
     // entitySprite.anchor.set(0.5);
@@ -56,5 +56,12 @@ export class PixiView implements IView {
     playerSprite.x = this._model.player.x;
     playerSprite.y = this._model.player.y;
     playerSprite.tint = this._model.player.tint;
+    this._model.enemies.map(enemy => {
+      const sprite = this._sprites[enemy.id];
+      sprite.x = enemy.x;
+      sprite.y = enemy.y;
+      sprite.rotation = enemy.rotation;
+      sprite.tint = enemy.tint;
+    })
   }
 }

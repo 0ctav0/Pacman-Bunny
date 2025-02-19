@@ -8,12 +8,16 @@ import { PixiView } from './view/PixiView';
 import { ResourceManager } from './resources/ResourceManager';
 import { Vector2 } from './utils/utils';
 
+const SLOW_UPDATE_MS = 300;
+
 export class Pacman {
   private _app: Application;
 
   private _model: IModel;
   private _view?: IView;
   private _controller: IController;
+
+  private _slowDelta = 0;
 
   static WIDTH = 1920/2;
   static HEIGHT = 1080/2;
@@ -38,8 +42,17 @@ export class Pacman {
     const [background, bunny] = await ResourceManager.LoadResources();
     this._view = new PixiView(this._app, this._model, {background, bunny});
     await this._view.Init();
-    this._view.InitSprite(this._model.player);
+    this._view.InitBunny(this._model.player);
+    this._model.enemies.map(enemy => this._view?.InitBunny(enemy));
+    this.SlowUpdateLoop();
     this._app.ticker.add(this.UpdateRenderLoop);
+  }
+
+  private SlowUpdateLoop = () => {
+    const deltaTimeS = (performance.now() - this._slowDelta) / 1000;
+    this._model.SlowUpdate(deltaTimeS);
+    this._slowDelta = performance.now();
+    setTimeout(this.SlowUpdateLoop, SLOW_UPDATE_MS);
   }
 
   private UpdateRenderLoop = (ticker: Ticker) => {

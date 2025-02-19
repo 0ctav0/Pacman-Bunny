@@ -21,14 +21,14 @@ export class Level implements ILevel {
         const horizontalOffst = WALL_THICKNESS + BUNNY_WIDTH;
         const verticalOffset = WALL_THICKNESS + BUNNY_HEIGHT;
 
-        this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
-        this._walls.push(new Entity(horizontalOffst, verticalOffset*2+1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        // this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        // this._walls.push(new Entity(horizontalOffst, verticalOffset*2+1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
     
-        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset*2-1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
-        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset*2-1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
 
         
-        this.BuildSquare(Pacman.WIDTH/2-SPAWN_SIZE/2, Pacman.HEIGHT/2-SPAWN_SIZE/2, SPAWN_SIZE, SPAWN_SIZE) // enemy's spawn
+        // this.BuildSquare(Pacman.WIDTH/2-SPAWN_SIZE/2, Pacman.HEIGHT/2-SPAWN_SIZE/2, SPAWN_SIZE, SPAWN_SIZE) // enemy's spawn
     }
 
     private BuildSquare(startX: number, startY: number, width: number, height: number, 

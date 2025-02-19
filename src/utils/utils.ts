@@ -1,6 +1,12 @@
+import { Color } from "pixi.js";
+
 export type Vector2 = [number, number];
 export type Vector3 = [number, number, number];
 export type Bounds = [number,number,number,number]; //x,y,width,height
+
+export const getRandomChannel = () => 255 * Math.random();
+export const getRandomColor = () => new Color({r: getRandomChannel(), g: getRandomChannel(), b: getRandomChannel()})
+export const generateId = () => Math.random().toString().slice(2);
 
 
 export class V2 {

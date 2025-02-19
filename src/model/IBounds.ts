@@ -8,9 +8,11 @@ export interface IBounds {
     get height(): number
     get size(): Vector2
     get bounds(): Bounds
+    get rotation(): number
 
     set x(v)
     set y(v)
+    set rotation(v)
 
     IsColliding(o: Bounds): boolean
     IsCollidingPoint(p: Vector2): boolean

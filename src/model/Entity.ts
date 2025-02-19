@@ -8,6 +8,7 @@ export class Entity implements IEntity {
     private _y: number;
     private _width: number;
     private _height: number;
+    private _rotation: number;
     private _tint: number;
 
     get id()                        {return this._id}
@@ -18,6 +19,7 @@ export class Entity implements IEntity {
     get height()                    {return this._height}
     get size():         Vector2     {return [this._width, this._height]}
     get bounds():       Bounds      {return [...this.position,...this.size]}
+    get rotation()                  {return this._rotation}
     get tint()                      {return this._tint}
 
     set id(v)           {this._id = v}
@@ -25,6 +27,7 @@ export class Entity implements IEntity {
     set y(v)            {this._y = v}
     set width(v)        {this._width = v}
     set height(v)       {this._height = v}
+    set rotation(v)     {this._rotation = v}
     set tint(v)         {this._tint = v}
 
     constructor(x: number, y: number, width: number, height: number) {
@@ -33,6 +36,7 @@ export class Entity implements IEntity {
         this._y = y;
         this._width = width;
         this._height = height;
+        this._rotation = 0;
         this._tint = 0xFF_FF_FF;
     }
 

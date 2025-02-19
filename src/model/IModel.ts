@@ -2,10 +2,13 @@ import { Vector2 } from "../utils/utils";
 import { IEntity } from "./IEntity";
 import { ILevel } from "./ILevel";
 
+export enum GameState { PLAY, PAUSED, WIN, DEFEAT }
+
 export interface IModel {
-  get player(): IEntity
-  get level(): ILevel
-  get enemies(): IEntity[]
+  get state(): GameState;
+  get player(): IEntity;
+  get level(): ILevel;
+  get enemies(): IEntity[];
 
   StartGame: () => void;
   SlowUpdate: (deltaTime: number) => void;

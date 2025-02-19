@@ -4,7 +4,7 @@ import { Entity } from './Entity';
 import { IBounds } from './IBounds';
 import { IEntity } from './IEntity';
 import { ILevel } from './ILevel';
-import { IModel } from './IModel';
+import { GameState, IModel } from './IModel';
 import { Level } from './Level';
 import { BUNNY_HEIGHT, BUNNY_WIDTH } from './constants';
 
@@ -17,6 +17,7 @@ const ENEMY_GAP = 50;
 const COLUMNS = 10;
 
 export class PacmanModel implements IModel {
+  private _state = GameState.PLAY;
   private _player: IEntity;
   private _level: ILevel;
   private _enemies: IEntity[] = [];
@@ -25,6 +26,7 @@ export class PacmanModel implements IModel {
   private _currentDirection: Vector2 = [0,0];
   private _desiredDirection: Vector2 = [0,0];
 
+  get state()     {return this._state}
   get player()    {return this._player}
   get level()     {return this._level}
   get enemies()   {return this._enemies}
@@ -63,10 +65,12 @@ export class PacmanModel implements IModel {
    * @param deltaTime It is need to run independently on computers with different CPU speed, frequency
    */
   Update(deltaTime: number) {
+    if (this.state !== GameState.PLAY) return;
     this.CheckIfPlayerCanChangeDirection(deltaTime);
     this.player.x += PLAYER_SPEED * this._currentDirection[0] * deltaTime;
     this.player.y += PLAYER_SPEED * this._currentDirection[1] * deltaTime;
     this.CheckPlayerCollidesWalls();
+    this.CheckPlayerCollidesEnemy();
     this._playerLastPosition = [this.player.x, this.player.y];
     this.CheckTeleport();
     this.UpdateEnemies(deltaTime);
@@ -81,6 +85,13 @@ export class PacmanModel implements IModel {
     if (collider) {
       // snap to the wall
       this.SnapToCollider(collider);
+    }
+  }
+
+  private CheckPlayerCollidesEnemy() {
+    if (this._enemies.some(_ => _.IsColliding(this.player.bounds))) {
+      this._state = GameState.DEFEAT;
+      alert("defeat");
     }
   }
 

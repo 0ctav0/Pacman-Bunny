@@ -1,6 +1,8 @@
 import { Pacman } from '../Pacman';
 import { BoundsF, V2, Vector2, getRandomColor } from '../utils/utils';
+import { AIManager } from './AIManager';
 import { Entity } from './Entity';
+import { IAIManager } from './IAIManager';
 import { IBounds } from './IBounds';
 import { IEntity } from './IEntity';
 import { ILevel } from './ILevel';
@@ -10,9 +12,9 @@ import { BUNNY_HEIGHT, BUNNY_WIDTH } from './constants';
 
 
 const PLAYER_SPEED = 3;
-const ENEMY_NUMBER = 60;
-const ENEMY_OFFSET_X = 200;
-const ENEMY_OFFSET_Y = 100;
+const ENEMY_NUMBER = 1;
+const ENEMY_OFFSET_X = 300;
+const ENEMY_OFFSET_Y = 300;
 const ENEMY_GAP = 50;
 const COLUMNS = 10;
 
@@ -21,6 +23,7 @@ export class PacmanModel implements IModel {
   private _player: IEntity;
   private _level: ILevel;
   private _enemies: IEntity[] = [];
+  private _aiManager: IAIManager;
   
   private _playerLastPosition: Vector2 = [0,0];
   private _currentDirection: Vector2 = [0,0];
@@ -32,9 +35,10 @@ export class PacmanModel implements IModel {
   get enemies()   {return this._enemies}
 
   constructor() {
-    this._player = new Entity(20, 20, BUNNY_WIDTH, BUNNY_HEIGHT);
+    this._player = new Entity(500, 500, BUNNY_WIDTH, BUNNY_HEIGHT);
     this._level = new Level;
     this.InitEnemies();
+    this._aiManager = new AIManager(this);
   }
 
   private InitEnemies() {
@@ -56,7 +60,7 @@ export class PacmanModel implements IModel {
 
   SlowUpdate(deltaTime: number) {
     this._enemies.map(enemy => {
-      enemy.tint = getRandomColor().toNumber();
+      // enemy.tint = getRandomColor().toNumber();
     })
   }
 
@@ -74,6 +78,7 @@ export class PacmanModel implements IModel {
     this._playerLastPosition = [this.player.x, this.player.y];
     this.CheckTeleport();
     this.UpdateEnemies(deltaTime);
+    this._aiManager.Update(deltaTime);
   }
 
   OnMove(direction: Vector2) {
@@ -90,8 +95,8 @@ export class PacmanModel implements IModel {
 
   private CheckPlayerCollidesEnemy() {
     if (this._enemies.some(_ => _.IsColliding(this.player.bounds))) {
-      this._state = GameState.DEFEAT;
-      alert("defeat");
+      // this._state = GameState.DEFEAT;
+      // alert("defeat");
     }
   }
 

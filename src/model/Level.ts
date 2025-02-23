@@ -22,7 +22,7 @@ export class Level implements ILevel {
         const verticalOffset = WALL_THICKNESS + BUNNY_HEIGHT;
 
         // this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
-        // this._walls.push(new Entity(horizontalOffst, verticalOffset*2+1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, verticalOffset*2+1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
     
         // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset*2-1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
         // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));

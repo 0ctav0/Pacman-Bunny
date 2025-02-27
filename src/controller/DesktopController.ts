@@ -1,4 +1,3 @@
-import { Vector2 } from '../utils/utils';
 import { IController } from './IController';
 
 const PLAYER_CONTROL_UP = "ArrowUp";
@@ -7,7 +6,7 @@ const PLAYER_CONTROL_DOWN = "ArrowDown";
 const PLAYER_CONTROL_LEFT = "ArrowLeft";
 
 export class DesktopController implements IController {
-    private _onMove?: (direction: Vector2) => void;
+    private _onMove?: (x:number,y:number) => void;
     private _onClick?: (x:number,y:number) => void;
 
     constructor({onMove, onClick}:{onMove?: DesktopController["_onMove"], onClick?: DesktopController["_onClick"]}) {
@@ -20,16 +19,16 @@ export class DesktopController implements IController {
         addEventListener("keydown", (e) => {
             switch (e.key) {
                 case PLAYER_CONTROL_UP:
-                    this._onMove?.([0, -1]);
+                    this._onMove?.(0, -1);
                     break;
                 case PLAYER_CONTROL_RIGHT:
-                    this._onMove?.([1, 0]);
+                    this._onMove?.(1, 0);
                     break;
                 case PLAYER_CONTROL_DOWN:
-                    this._onMove?.([0, 1]);
+                    this._onMove?.(0, 1);
                     break;
                 case PLAYER_CONTROL_LEFT:
-                    this._onMove?.([-1, 0]);
+                    this._onMove?.(-1, 0);
                     break;
             }
         });

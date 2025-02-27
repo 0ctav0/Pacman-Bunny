@@ -1,4 +1,5 @@
-import { Bounds, Vector2 } from "../utils/utils";
+import { Vector2 } from "../utils/Vector2";
+import { Bounds } from "../utils/utils";
 
 export interface IBounds {
     get x(): number
@@ -13,6 +14,7 @@ export interface IBounds {
 
     set x(v)
     set y(v)
+    set position(v)
     set rotation(v)
 
     IsColliding(o: Bounds): boolean

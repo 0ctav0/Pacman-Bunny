@@ -6,7 +6,7 @@ import { PacmanModel } from './model/PacmanModel';
 import { IView } from './view/IView';
 import { PixiView } from './view/PixiView';
 import { ResourceManager } from './resources/ResourceManager';
-import { Vector2 } from './utils/utils';
+import { Vector2 } from './utils/Vector2';
 
 const SLOW_UPDATE_MS = 300;
 
@@ -29,15 +29,15 @@ export class Pacman {
     this.Init();
   }
 
-  private OnMove = (direction: Vector2) => {
-    this._model.OnMove(direction);
+  private OnMove = (x: number, y: number) => {
+    this._model.OnMove(new Vector2(x,y));
   }
 
   private OnClick = (x: number, y: number) => {
     this._model.player.x = x;
     this._model.player.y = y;
     this._model.aiManager.MakePath();
-    console.log("On click collides with walls", this._model.level.walls.some(w => w.IsCollidingPoint([x,y])))
+    console.log("On click collides with walls", this._model.level.walls.some(w => w.IsCollidingPoint(new Vector2(x,y))))
   }
 
   private async Init() {

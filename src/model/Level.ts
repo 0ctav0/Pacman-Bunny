@@ -50,7 +50,7 @@ export class Level implements ILevel {
                 const bounds: Bounds = [x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS]
                 if (!this.walls.some(wall => wall.IsColliding(bounds))) {
                     tile = Tile.AI_PASS;
-                    console.log(bounds);
+                    // console.log(bounds);
                 }
                 // if (x === 0 || y === 0 || x === LEVEL_X-1 || y === LEVEL_Y-1) tile = Tile.WALL;
                 // else if (y === 6 && x > 1) tile = Tile.WALL;

@@ -18,7 +18,6 @@ export class PixiView implements IView {
   private _model: IModel;
   private _textures: TexturesObj;
   private _sprites: Record<number,Sprite> = {};
-  private _debugPrimitive: Graphics;
 
   constructor(app: Application, model: IModel, tex: TexturesObj) {
     this._app = app;
@@ -30,14 +29,11 @@ export class PixiView implements IView {
     await this._app.init({ background: 'black', resizeTo: window, });
     document.body.appendChild(this._app.canvas);
     await this.LoadLevel();
-    this._debugPrimitive = new Graphics().rect(-100,0,WALL_THICKNESS,WALL_THICKNESS).fill("#5f5");
-    this._app.stage.addChild(this._debugPrimitive);
   }
 
   private async LoadLevel() {
     const background = new Sprite(this._textures.background);
     this._app.stage.addChild(background);
-    console.log(this._model.level)
     this._model.level.ForEach(cell => {
       const {x,y} = cell;
       if (cell.tile === Tile.AI_PASS) {
@@ -64,6 +60,7 @@ export class PixiView implements IView {
     entitySprite.x = entity.x;
     entitySprite.y = entity.y;
     entitySprite.tint = entity.tint;
+    entitySprite.zIndex = 100;
     this._sprites[entity.id] = entitySprite;
 }
 
@@ -82,7 +79,7 @@ export class PixiView implements IView {
     this._model.level.ForEach(cell => {
       if (cell.pass === Tile.AI_PASS) {
         const {x,y} = cell;
-        const sprite = new Graphics().rect(x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS).fill("#faa9");
+        const sprite = new Graphics().rect(x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS).fill("#faa3");
         setTimeout(() => sprite.destroy(), 1000)
         sprite.zIndex = 11;
         this._app.stage.addChild(sprite);

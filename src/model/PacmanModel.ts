@@ -4,10 +4,11 @@ import { AIManager } from './AIManager';
 import { Entity } from './Entity';
 import { IAIManager } from './IAIManager';
 import { IBounds } from './IBounds';
+import { Tile } from './ICell';
 import { IEntity } from './IEntity';
 import { ILevel } from './ILevel';
 import { GameState, IModel } from './IModel';
-import { Level } from './Level';
+import { Level, WALL_THICKNESS } from './Level';
 import { BUNNY_HEIGHT, BUNNY_WIDTH } from './constants';
 
 
@@ -24,6 +25,7 @@ export class PacmanModel implements IModel {
   private _level: ILevel;
   private _enemies: IEntity[] = [];
   private _aiManager: IAIManager;
+  private _loaded = false;
   
   private _playerLastPosition: Vector2 = [0,0];
   private _currentDirection: Vector2 = [0,0];
@@ -39,6 +41,7 @@ export class PacmanModel implements IModel {
     this._level = new Level;
     this.InitEnemies();
     this._aiManager = new AIManager(this);
+    this._loaded = true;
   }
 
   private InitEnemies() {
@@ -70,9 +73,11 @@ export class PacmanModel implements IModel {
    */
   Update(deltaTime: number) {
     if (this.state !== GameState.PLAY) return;
+    if (!this._loaded) return;
     this.CheckIfPlayerCanChangeDirection(deltaTime);
     this.player.x += PLAYER_SPEED * this._currentDirection[0] * deltaTime;
     this.player.y += PLAYER_SPEED * this._currentDirection[1] * deltaTime;
+    // this.SetPlayerInCell();
     this.CheckPlayerCollidesWalls();
     this.CheckPlayerCollidesEnemy();
     this._playerLastPosition = [this.player.x, this.player.y];
@@ -83,6 +88,15 @@ export class PacmanModel implements IModel {
 
   OnMove(direction: Vector2) {
     this._desiredDirection = direction;
+  }
+
+  private SetPlayerInCell() {
+    const [x_px, y_px] = this.player.position;
+    const x = Math.floor(x_px / WALL_THICKNESS);
+    const y = Math.floor(y_px / WALL_THICKNESS);
+    console.log(x,y);
+    // this.level.cells[x][y].tile = Tile.PLAYER;
+    // this.level.cells[x-1][y].tile = Tile.
   }
 
   private CheckPlayerCollidesWalls() {

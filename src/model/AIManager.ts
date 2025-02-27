@@ -47,7 +47,7 @@ export class AIManager implements IAIManager {
     }
 
     private AIDesicionMaker() {
-        this.MoveEnemyToPlayer();
+        // this.MoveEnemyToPlayer();
         setTimeout(this.AIDesicionMaker, DESICION_DELAY_MS);
     }
 

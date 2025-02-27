@@ -1,34 +1,64 @@
 import { Pacman } from "../Pacman";
+import { Bounds } from "../utils/utils";
+import { Cell } from "./Cell";
 import { Entity } from "./Entity";
+import { Tile } from "./ICell";
 import { IEntity } from "./IEntity";
 import { ILevel } from "./ILevel";
 import { BUNNY_HEIGHT, BUNNY_WIDTH } from "./constants";
 
-const WALL_THICKNESS = 20;
+export const WALL_THICKNESS = 20;
 const SPAWN_SIZE = 190;
 const SIDE_GAP = BUNNY_HEIGHT;
+export const LEVEL_X = 48;
+export const LEVEL_Y = 27;
 
 export class Level implements ILevel {
 
     private _walls: IEntity[] = [];
+    private _cells: Cell[][] = [];
 
     get walls()     {return this._walls}
+    get cells()     {return this._cells}
 
     constructor() {
+
 
         this.BuildSquare(0,0,Pacman.WIDTH,Pacman.HEIGHT, {sideHoles:true}); // outer walls
 
         const horizontalOffst = WALL_THICKNESS + BUNNY_WIDTH;
         const verticalOffset = WALL_THICKNESS + BUNNY_HEIGHT;
 
-        // this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
         this._walls.push(new Entity(horizontalOffst, verticalOffset*2+1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
     
-        // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset*2-1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
-        // this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset*2-1, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
+        this._walls.push(new Entity(horizontalOffst, Pacman.HEIGHT-WALL_THICKNESS-verticalOffset, Pacman.WIDTH-horizontalOffst*2, WALL_THICKNESS));
 
         
-        // this.BuildSquare(Pacman.WIDTH/2-SPAWN_SIZE/2, Pacman.HEIGHT/2-SPAWN_SIZE/2, SPAWN_SIZE, SPAWN_SIZE) // enemy's spawn
+        this.BuildSquare(Pacman.WIDTH/2-SPAWN_SIZE/2, Pacman.HEIGHT/2-SPAWN_SIZE/2, SPAWN_SIZE, SPAWN_SIZE) // enemy's spawn
+        this.InitLevel();
+    
+    }
+
+    private InitLevel() {
+        for (let x = 0; x < LEVEL_X; x++) {
+            const col: Cell[] = [];
+            for (let y = 0; y < LEVEL_Y; y++) {
+                // const tile = Math.random() < .5 ? Tile.EMPTY : Tile.WALL;
+                let tile = Tile.EMPTY;
+                const bounds: Bounds = [x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS]
+                if (!this.walls.some(wall => wall.IsColliding(bounds))) {
+                    tile = Tile.AI_PASS;
+                    console.log(bounds)
+                }
+                // if (x === 0 || y === 0 || x === LEVEL_X-1 || y === LEVEL_Y-1) tile = Tile.WALL;
+                // else if (y === 6 && x > 1) tile = Tile.WALL;
+                // if (x === 0 && y === Math.floor(LEVEL_Y/2)) tile = Tile.EMPTY;
+                col.push(new Cell(x,y,tile));
+            }
+            this._cells.push(col);
+        }
     }
 
     private BuildSquare(startX: number, startY: number, width: number, height: number, 
@@ -66,4 +96,6 @@ export class Level implements ILevel {
         const bottomWall = new Entity(startX, startY + height - WALL_THICKNESS, width, WALL_THICKNESS);
         this._walls.push(bottomWall);
     }
+
+    ///// public
 }

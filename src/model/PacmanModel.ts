@@ -13,6 +13,9 @@ import { BUNNY_HEIGHT, BUNNY_WIDTH } from './constants';
 
 
 const PLAYER_SPEED = 3;
+const PLAYER_X = 600;
+const PLAYER_Y = 300;
+
 const ENEMY_NUMBER = 1;
 const ENEMY_OFFSET_X = 300;
 const ENEMY_OFFSET_Y = 300;
@@ -26,7 +29,7 @@ export class PacmanModel implements IModel {
   private _enemies: IEntity[] = [];
   private _aiManager: IAIManager;
   private _loaded = false;
-  
+
   private _playerLastPosition = Vector2.zero;
   private _currentDirection = Vector2.zero;
   private _desiredDirection = Vector2.zero;
@@ -38,7 +41,7 @@ export class PacmanModel implements IModel {
   get aiManager() {return this._aiManager}
 
   constructor() {
-    this._player = new Entity(500, 500, BUNNY_WIDTH, BUNNY_HEIGHT);
+    this._player = new Entity(PLAYER_X, PLAYER_Y, BUNNY_WIDTH, BUNNY_HEIGHT);
     this._level = new Level;
     this.InitEnemies();
     this._aiManager = new AIManager(this);
@@ -49,11 +52,11 @@ export class PacmanModel implements IModel {
     for (let i = 0; i < ENEMY_NUMBER; i++) {
       const even = i % 2;
       let x, y
-      
 
-        x = ENEMY_OFFSET_X + (i % COLUMNS) * ENEMY_GAP;
-        y = ENEMY_OFFSET_Y + Math.floor(i / COLUMNS) * ENEMY_GAP;
-     
+
+      x = ENEMY_OFFSET_X + (i % COLUMNS) * ENEMY_GAP;
+      y = ENEMY_OFFSET_Y + Math.floor(i / COLUMNS) * ENEMY_GAP;
+
       const enemy = new Entity(x, y, BUNNY_WIDTH, BUNNY_HEIGHT);
       enemy.tint = getRandomColor().toNumber();
       this._enemies.push(enemy);
@@ -76,7 +79,7 @@ export class PacmanModel implements IModel {
     if (this.state !== GameState.PLAY) return;
     if (!this._loaded) return;
     this.CheckIfPlayerCanChangeDirection(deltaTime);
-    this.player.position = this.player.position.Add(this._currentDirection.Mult(PLAYER_SPEED * deltaTime));
+    this.player.position.Add(this._currentDirection.Mult(PLAYER_SPEED * deltaTime));
     this.CheckPlayerCollidesWalls();
     this.CheckPlayerCollidesEnemy();
     this._playerLastPosition = this.player.position.Clone();
@@ -105,7 +108,7 @@ export class PacmanModel implements IModel {
   }
 
   private SnapToCollider(collider: IBounds) {
-    const {x,y} = this._currentDirection;
+    const { x, y } = this._currentDirection;
     if (y === -1) {
       this.player.x = this._playerLastPosition.x;
       this.player.y = collider.y + collider.height;
@@ -138,14 +141,14 @@ export class PacmanModel implements IModel {
   }
 
   private UpdateEnemies(deltaTime: number) {
-    this._enemies.map((enemy,i) => {
+    this._enemies.map((enemy, i) => {
       const direction = Math.random() > .5 ? 1 : -1;
       const even = i % 2
       const random = Math.random() > .5
       // enemy.x += Math.random()*deltaTime*direction;
       // enemy.y += Math.random()*deltaTime*direction;
-      if (random ) {
-        
+      if (random) {
+
         // enemy.x += Math.cos(performance.now()/1000)*2*deltaTime
         // enemy.y += Math.sin(performance.now()/1000)*2*deltaTime
       }

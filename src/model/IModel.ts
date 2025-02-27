@@ -1,4 +1,5 @@
 import { Vector2 } from "../utils/utils";
+import { IAIManager } from "./IAIManager";
 import { IEntity } from "./IEntity";
 import { ILevel } from "./ILevel";
 
@@ -9,6 +10,7 @@ export interface IModel {
   get player(): IEntity;
   get level(): ILevel;
   get enemies(): IEntity[];
+  get aiManager(): IAIManager;
 
   StartGame: () => void;
   SlowUpdate: (deltaTime: number) => void;

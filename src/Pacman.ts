@@ -36,6 +36,7 @@ export class Pacman {
   private OnClick = (x: number, y: number) => {
     this._model.player.x = x;
     this._model.player.y = y;
+    this._model.aiManager.MakePath();
     console.log("On click collides with walls", this._model.level.walls.some(w => w.IsCollidingPoint([x,y])))
   }
 

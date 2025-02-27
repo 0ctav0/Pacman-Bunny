@@ -19,6 +19,7 @@ export class Entity implements IEntity {
     get height()                    {return this._height}
     get size():         Vector2     {return [this._width, this._height]}
     get bounds():       Bounds      {return [...this.position,...this.size]}
+    get center():       Vector2     {return [this._x+this._width/2, this._y+this._height/2]}
     get rotation()                  {return this._rotation}
     get tint()                      {return this._tint}
 

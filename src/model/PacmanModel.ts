@@ -35,6 +35,7 @@ export class PacmanModel implements IModel {
   get player()    {return this._player}
   get level()     {return this._level}
   get enemies()   {return this._enemies}
+  get aiManager() {return this._aiManager}
 
   constructor() {
     this._player = new Entity(500, 500, BUNNY_WIDTH, BUNNY_HEIGHT);
@@ -77,7 +78,6 @@ export class PacmanModel implements IModel {
     this.CheckIfPlayerCanChangeDirection(deltaTime);
     this.player.x += PLAYER_SPEED * this._currentDirection[0] * deltaTime;
     this.player.y += PLAYER_SPEED * this._currentDirection[1] * deltaTime;
-    // this.SetPlayerInCell();
     this.CheckPlayerCollidesWalls();
     this.CheckPlayerCollidesEnemy();
     this._playerLastPosition = [this.player.x, this.player.y];
@@ -88,15 +88,6 @@ export class PacmanModel implements IModel {
 
   OnMove(direction: Vector2) {
     this._desiredDirection = direction;
-  }
-
-  private SetPlayerInCell() {
-    const [x_px, y_px] = this.player.position;
-    const x = Math.floor(x_px / WALL_THICKNESS);
-    const y = Math.floor(y_px / WALL_THICKNESS);
-    console.log(x,y);
-    // this.level.cells[x][y].tile = Tile.PLAYER;
-    // this.level.cells[x-1][y].tile = Tile.
   }
 
   private CheckPlayerCollidesWalls() {

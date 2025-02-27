@@ -3,7 +3,6 @@ import { Application, Graphics, Sprite, Texture } from 'pixi.js';
 import { IView } from './IView';
 import { IEntity } from '../model/IEntity';
 import { IModel } from "../model/IModel";
-import { LEVEL_X, LEVEL_Y } from "../model/Level";
 import { Tile } from "../model/ICell";
 
 type TexturesObj = {
@@ -39,16 +38,14 @@ export class PixiView implements IView {
     const background = new Sprite(this._textures.background);
     this._app.stage.addChild(background);
     console.log(this._model.level)
-    for (let x = 0; x < LEVEL_X; x++) {
-      for (let y = 0; y < LEVEL_Y; y++) {
-        const cell = this._model.level.cells[x][y];
-        if (cell.tile === Tile.AI_PASS) {
-          const sprite = new Graphics().rect(x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS).fill("#afa9");
-          sprite.zIndex = 10;
-          this._app.stage.addChild(sprite);
-        }
+    this._model.level.ForEach(cell => {
+      const {x,y} = cell;
+      if (cell.tile === Tile.AI_PASS) {
+        const sprite = new Graphics().rect(x*WALL_THICKNESS, y*WALL_THICKNESS, 3, 3).fill("red");
+        sprite.zIndex = 10;
+        this._app.stage.addChild(sprite);
       }
-    }
+    });
     this._model.level.walls.map(wall => {
       const sprite = new Sprite(Texture.WHITE);
       sprite.x = wall.x;
@@ -82,15 +79,14 @@ export class PixiView implements IView {
       sprite.rotation = enemy.rotation;
       sprite.tint = enemy.tint;
     });
-    // for (let x = 0; x < LEVEL_X; x++) {
-    //   for (let y = 0; y < LEVEL_Y; y++) {
-    //     const cell = this._model.level.cells[x][y];
-    //     if (cell.tile === Tile.PLAYER) {
-    //       this._debugPrimitive.x = x * WALL_THICKNESS;
-    //       this._debugPrimitive.y = y * WALL_THICKNESS;
-    //     }
-
-    //   }
-    // }
+    this._model.level.ForEach(cell => {
+      if (cell.pass === Tile.AI_PASS) {
+        const {x,y} = cell;
+        const sprite = new Graphics().rect(x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS).fill("#faa9");
+        setTimeout(() => sprite.destroy(), 1000)
+        sprite.zIndex = 11;
+        this._app.stage.addChild(sprite);
+      }
+    });
   }
 }

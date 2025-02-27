@@ -2,7 +2,7 @@ import { Pacman } from "../Pacman";
 import { Bounds } from "../utils/utils";
 import { Cell } from "./Cell";
 import { Entity } from "./Entity";
-import { Tile } from "./ICell";
+import { ICell, Tile } from "./ICell";
 import { IEntity } from "./IEntity";
 import { ILevel } from "./ILevel";
 import { BUNNY_HEIGHT, BUNNY_WIDTH } from "./constants";
@@ -42,15 +42,15 @@ export class Level implements ILevel {
     }
 
     private InitLevel() {
-        for (let x = 0; x < LEVEL_X; x++) {
+        for (let y = 0; y < LEVEL_Y; y++) {
             const col: Cell[] = [];
-            for (let y = 0; y < LEVEL_Y; y++) {
+            for (let x = 0; x < LEVEL_X; x++) {
                 // const tile = Math.random() < .5 ? Tile.EMPTY : Tile.WALL;
                 let tile = Tile.EMPTY;
                 const bounds: Bounds = [x*WALL_THICKNESS, y*WALL_THICKNESS, WALL_THICKNESS, WALL_THICKNESS]
                 if (!this.walls.some(wall => wall.IsColliding(bounds))) {
                     tile = Tile.AI_PASS;
-                    console.log(bounds)
+                    console.log(bounds);
                 }
                 // if (x === 0 || y === 0 || x === LEVEL_X-1 || y === LEVEL_Y-1) tile = Tile.WALL;
                 // else if (y === 6 && x > 1) tile = Tile.WALL;
@@ -98,4 +98,17 @@ export class Level implements ILevel {
     }
 
     ///// public
+
+    At(x: number, y: number) {
+        return this._cells[y][x];
+    }
+
+    ForEach(callback: (cell: ICell) => void) {
+        for (let y = 0; y < LEVEL_Y; y++) {
+            for (let x = 0; x < LEVEL_X; x++) {
+                const cell = this.At(x,y);
+                callback(cell);
+            }
+        }
+    }
 }

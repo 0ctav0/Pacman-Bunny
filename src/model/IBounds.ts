@@ -7,6 +7,7 @@ export interface IBounds {
     get width(): number
     get height(): number
     get size(): Vector2
+    get center(): Vector2
     get bounds(): Bounds
     get rotation(): number
 
